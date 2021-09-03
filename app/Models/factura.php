@@ -15,7 +15,7 @@ class factura extends Model
     protected $primaryKey = 'id';
 
 
-    protected $fillable = ['cliente_id', 'fecha', 'descuento', 'total', 'usuario_id', 'id'];
+    protected $fillable = ['cliente_id', 'fecha', 'total', 'usuario_id', 'id'];
 
     public function negocios(){
         return $this->belongsTo('App\Models\negocio');

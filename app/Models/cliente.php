@@ -15,7 +15,7 @@ class cliente extends Model
     protected $primaryKey = 'id';
 
 
-    protected $fillable = ['nombre', 'apellido', 'edad', 'telefono', 'direccion',  'id'];
+    protected $fillable = ['nombre', 'apellido', 'edad', 'telefono', 'direccion', 'nit','id'];
 
 
     public function facturas()

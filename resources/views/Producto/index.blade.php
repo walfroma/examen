@@ -53,6 +53,7 @@
                                     <th class="centrado"> Categoria</th>
                                     <th class="centrado"> Nombre</th>
                                     <th class="centrado"> Precio</th>
+                                    <th class="centrado"> Descripcion</th>
                                     <th class="centrado"> Estado</th>
 
                                     <th  class="centrado">Actiones</th>
@@ -72,6 +73,7 @@
                                             @else
                                                 <h5><span class="badge badge-pill badge-danger text-dark">{{$item->estado}}</span></h5>
                                             @endif</td>
+                                        <td class="centrado">{{$item->descipcion}}</td>
                                         <td class="centrado">
                                             <div class="form-inline my-2 my-lg-0 justify-content-center">
                                                 <div class="input-group">

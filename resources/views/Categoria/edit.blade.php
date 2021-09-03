@@ -2,5 +2,5 @@
     {{ csrf_field() }}{{ method_field('PATCH') }}
 
     @include('Categoria.form',['Modo'=>'editar'])
-
 </form>
+

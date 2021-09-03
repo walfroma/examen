@@ -18,7 +18,7 @@ class ClienteController extends Controller
             $Cliente = DB::table('clientes')
                 ->where('nombre', 'LIKE', "%$keyword%")->orWhere('apellido', 'LIKE', "%$keyword%")
                 ->orWhere('edad', 'LIKE', "%$keyword%")->orWhere('telefono', 'LIKE', "%$keyword%")
-                ->orWhere('direccion', 'LIKE', "%$keyword%")
+                ->orWhere('nit', 'LIKE', "%$keyword%")->orWhere('direccion', 'LIKE', "%$keyword%")
                 ->select('clientes.*')
                 ->latest()->paginate($perPage);
         } else {
@@ -48,6 +48,7 @@ class ClienteController extends Controller
     {
 
         $campos=[
+            'nit'=>'required|string|max:100',
             'nombre'=>'required|string|max:100',
             'apellido'=>'required|string|max:100',
             'edad'=>'required|max:100',
@@ -86,6 +87,7 @@ class ClienteController extends Controller
         //
         //Para requerir y validar datos
         $campos=[
+            'nit'=>'required|string|max:100',
             'nombre'=>'required|string|max:100',
             'apellido'=>'required|string|max:100',
             'edad'=>'required|max:100',

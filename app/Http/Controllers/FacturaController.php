@@ -6,9 +6,11 @@ use App\Models\cliente;
 use App\Models\detalle_venta;
 use App\Models\factura;
 use App\Models\producto;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class FacturaController extends Controller
 {
@@ -38,85 +40,79 @@ class FacturaController extends Controller
     public function create()
     {
 
+        $Usuario = cliente::all();
 
-        $Cliente = cliente::all();
-        $Producto = producto::all();
-        $Factura = factura::all();
-
-        return view('Factura.create', compact('Cliente', 'Producto', 'Factura'));
+        return view('Factura.create', compact(  'Usuario'));
     }
 
     public function store(Request $request)
     {
-        // try{
-        DB::beginTransaction();
-
-        $venta = new factura($request->all());
-        /*$venta -> id = $request -> get('id');
-        $venta -> cliente_id = $request -> get('cliente_id');
-        $venta -> negocio_id = $request -> get('negocio_id');
-        $venta -> fecha = $request -> get('fecha');
-        $venta -> descuento = $request -> get('descuento');
-        $venta -> total = $request -> get('total'); */
-        $venta->usuario_id = Auth::user()->id;
-        $venta->save();
-        //  if($venta->save()){
-        // $id = $request -> get('id');
-        $productos_id = $request ->get('productos_id');
-        $cantidad =$request-> get('cantidad');
-        $precio = $request -> get('precio');
-        $subtotal = $request -> get('subtotal');
-
-        $cont = 0;
+        $Factura = new factura($request->all());
+        $Factura->usuario_id = Auth::user()->id;
+     //   $Factura->cliente_id = $request->cliente_id;
+        $Factura->total = '0';
+        $Factura->save();
 
 
-        while($cont < count($productos_id)){
+       // $Fac = factura::findOrFail($id);
 
-            $detalle = new detalle_venta($request->all());
-            // $detalle -> id = $id -> id;
-            //$detalle -> facturas()->associate($venta);
-            $detalle -> facturas_id = $venta -> id;
-            $detalle -> productos_id = $productos_id[$cont];
-            $detalle -> cantidad = $cantidad[$cont];
-            $detalle -> precio = $precio[$cont];
-            $detalle -> subtotal = $subtotal[$cont];
-            $detalle -> save();
+        return Redirect('Factura/'.$Factura->id.'/Detalle');
+    }
 
-            $cont = $cont+1;
-        }
+    public function detalle($id)
+    {
+        $Factura = factura::findOrFail($id);
+        $Cliente = cliente::all();
+        $Producto = producto::all();
+        $Detalle = DB::table('detalle_ventas')
+            ->join('productos', 'productos.id', 'detalle_ventas.productos_id')->select('detalle_ventas.*', 'productos.nombre')
+        ->where('detalle_ventas.facturas_id', '=', $Factura->id)->get();
 
-        DB::commit();
-        //   return ['id' => $venta->id];
+        $Suma = DB::table('detalle_ventas')->where('detalle_ventas.facturas_id', '=', $Factura->id)
+            ->sum('detalle_ventas.subtotal');
 
-        //}catch (\Exception $e) {
-        //  DB::rollback();
 
-        //  }
-        return redirect('Factura');
+        return view('Factura.detalle', compact(  'Cliente', 'Factura', 'Producto', 'Detalle', 'Suma'));
+    }
+
+    public function store2(Request $request, $id){
+
+        $Factura = factura::findOrFail($id);
+        $Detalle = new detalle_venta($request->all());
+        $Detalle->facturas_id = $id;
+
+        $productos_id = $request ->productos_id;
+        $Productos = DB::table('productos')->where('id', '=', $productos_id)->value('precio');
+        $Detalle->precio = $Productos;
+
+        $cantidad = $request ->cantidad;
+        $SUBTOTAL = $cantidad * $Productos;
+        $Detalle->subtotal = $SUBTOTAL;
+       // dd($Detalle);
+
+        $Detalle->save();
+
+
+        //return $this->detalle();
+        return Redirect('Factura/'.$Factura->id.'/Detalle');
 
     }
 
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
 
 
-        return view('Factura.show');
-
-    }
-
-
-    public function edit($id)
-    {
-        //
-
-
-        return view('Factura.edit',compact('Factura'));
     }
 
 
     public function update(Request $request, $id)
     {
+        $Factura = factura::findOrFail($id);
+        $Factura -> fill($request->all());
+        $Factura -> update();
+
+        return Redirect('Factura');
 
     }
 
@@ -128,9 +124,9 @@ class FacturaController extends Controller
      */
     public function destroy($id)
     {
-        //
-        facturas::destroy($id);
-        //return redirect('Factura');
-        return redirect('Factura')->with('Mensaje','Factura eliminado con Exito');
+        detalle_venta::destroy($id);
+
+        return back();
+
     }
 }

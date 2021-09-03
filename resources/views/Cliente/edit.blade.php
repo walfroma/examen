@@ -14,7 +14,11 @@
                         Modificar Cliente</div>
                     <div class="card-body">
 
-
+                        <div class="form-group">
+                            <label for="nombre" class="control-label"> {{'NIT'}}</label>
+                            <input type="text" class="form-control {{$errors->has('NIT') ? 'is-invalid' :'' }}" name="nit" id="nit" value="{{ isset($Cliente->nit)? $Cliente->nit:''}}" >
+                            {!! $errors->first('NIT','<div class="invalid-feedback"> :message</div>') !!}
+                        </div>
                         <div class="form-group">
                             <label for="nombre" class="control-label"> {{'Nombre'}}</label>
                             <input type="text" class="form-control {{$errors->has('Nombre') ? 'is-invalid' :'' }}" name="nombre" id="nombre" value="{{ isset($Cliente->nombre)? $Cliente->nombre:''}}" >

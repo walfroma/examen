@@ -50,6 +50,7 @@
                                 <thead class="thead-light">
                                 <tr >
                                     <th> No</th>
+                                    <th> NIT</th>
                                     <th> Nombre</th>
                                     <th> Apellido</th>
                                     <th> Edad</th>
@@ -63,6 +64,7 @@
                                 @foreach($Cliente as $item)
                                     <tr >
                                         <td >{{ $loop->iteration }}</td>
+                                        <td >{{ $item->nit }}</td>
                                         <td >{{ $item->nombre }}</td>
                                         <td >{{$item->apellido}}</td>
                                         <td >{{$item->edad}}</td>
