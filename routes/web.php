@@ -29,5 +29,4 @@ Route::get('Factura.create', [\App\Http\Controllers\FacturaController::class, 'c
 Route::post('Factura.create', [\App\Http\Controllers\FacturaController::class, 'store']);
 Route::get('Factura/{id}/Detalle', [\App\Http\Controllers\FacturaController::class, 'detalle']);
 Route::post('Factura/{id}/Detalle', [\App\Http\Controllers\FacturaController::class, 'store2']);
-Route::delete('Factura/{id}', [\App\Http\Controllers\FacturaController::class, 'destroy']);
 Route::patch('Factura/{id}/Detalle', [\App\Http\Controllers\FacturaController::class, 'update']);

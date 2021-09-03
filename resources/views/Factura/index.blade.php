@@ -42,13 +42,10 @@
                             <table class="table table-light table-hover">
                                 <thead class="thead-light">
                                 <tr>
-                                    <th>No Factura</th>
+                                    <th>No</th>
 
                                     <th  >Fecha</th>
                                     <th  >Cliente</th>
-                                    <th  >Cantidad</th>
-                                    <th  >Producto</th>
-                                    <th  >Descuento</th>
                                     <th  >Total</th>
                                     <th class=" form-inline justify-content-center" >Actiones</th>
                                 </tr>
@@ -58,22 +55,12 @@
                                     <tr >
                                         <td>{{ $loop->iteration }}</td>
                                         <td >{{ $item->fecha }}</td>
+                                        <td >{{ $item->nombre}}, {{$item->apellido}}</td>
+                                        <td >{{ $item->total}}</td>
                                         <td>
                                             <div class="form-inline my-2 my-lg-0 ">
                                                 <div class="input-group justify-content-center">
-                                                    @can('Ver detalle de Factura')
-                                                        <a href="{{ url('/Factura/' . $item->id) }}" title="Vista Factura" > <button class="btn btn-info btn-smn form-control mr-sm-3 mt-1" > <i aria-hidden="true"></i>  Vista </button> </a>
-                                                    @endcan
-                                                    @can('Edicion de Factura')
-                                                        <a href="{{ url('/Factura/' . $item->id . '/edit') }}" title="Editar Factura"> <button class="btn btn-warning btn-smn mr-sm-3 mt-1"> <i aria-hidden="true"></i>  Editar </button></a>
-                                                    @endcan
-                                                    @can('Eliminar Factura')
-                                                        <form method="POST" action="{{ url('/Factura' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
-                                                            {{ method_field('DELETE') }}
-                                                            {{ csrf_field() }}
-                                                            <a> <button type="submit" class="btn btn-danger btm-sm mt-1  " title="Eliminar Factura" onclick="return confirm('¿Desea_Borrar_el_Dato?');"> <i  aria-hidden="true"></i>Borrar</button> </a>
-                                                            @endcan
-                                                        </form>
+                                                        <a href="{{ url('/Factura/' . $item->id . '/Detalle') }}" title="Editar Factura"> <button class="btn btn-warning btn-smn mr-sm-3 mt-1"> <i aria-hidden="true"></i>  Editar </button></a>
                                                 </div>
                                             </div>
                                         </td>

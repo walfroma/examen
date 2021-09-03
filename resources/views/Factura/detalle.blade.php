@@ -29,29 +29,34 @@
                                 @foreach($Cliente as $Cliente )
                                 <div class="col-md-2">
                                     <label for="inputEmail4" class="">Nit </label>
-                                        <input type="hidden"  value="{{$Cliente->id}}" {{$Cliente->id == $Factura->cliente_id ? 'selected' : ''}}">
+                                        <input type="hidden"  value="{{$Cliente->id}}"{{$Cliente->id == $Factura->cliente_id ? 'selected' : ''}}">
                                         <input type="text" class="form-control" readonly value="{{$Cliente->nit}}" >
                                 </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <label for="inputEmail4" class="">Nombre </label>
                                         <input type="text" class="form-control" readonly value="{{$Cliente->nombre}},   {{$Cliente->apellido}} ">
                                     </div>
-
                                     <div class="col">
                                         <label for="inputEmail4" class="">Direccion </label>
                                         <input type="text" class="form-control" readonly value="{{$Cliente->direccion}} ">
                                     </div>
                                 @endforeach
                             </div>
-                            <br/>
-
                                 <div class="row">
                                     <div class="col">
                                         <label for="inputEmail4" class="">Producto </label>
-                                        <select name="productos_id" id="productos_id" class="form-control">
+                                        <select name="productos_id" id="productos_id" class="form-control" >
                                             <option class="form-inline justify-content-center" > Seleccione Producto </option>
                                             @foreach($Producto as $Producto )
-                                                <option value="{{$Producto->id}}">{{$Producto->nombre}} / Stock:{{$Producto->stock}}  /  Precio:{{$Producto->precio}}</option>
+                                                <option value="{{$Producto->id}}">
+
+                                                    {{$Producto->nombre}} /
+                                                    @if($Producto->stock == '0')
+                                                        Estado: {{   $Producto->estado}}
+                                                        @else
+                                                        Stock: {{$Producto->stock}}
+                                                        @endif
+                                                     /  Precio: {{$Producto->precio}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -62,7 +67,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                         </div>
                         <div class=" form-inline mb-2 mb-lg-0 justify-content-center">
                             <div class="input-group">
@@ -73,15 +77,12 @@
                             </div>
                         </div>
 
-<br/>
-
     </form>
 
     <div class="col-md-auto" >
                             <div class="card">
                         <div class="table-responsive">
                             <table class="table table-condensed table-hover  table-sm" >
-
                                 <thead class="thead-light">
                                 <tr >
                                     <th> No</th>
@@ -89,11 +90,9 @@
                                     <th> Producto</th>
                                     <th> Precio</th>
                                     <th> Subtotal</th>
-
                                     <th  class=" form-inline justify-content-center">Actiones</th>
                                 </tr>
                                 </thead>
-
                                 @foreach($Detalle as $item)
                                     <tr >
                                         <td >{{ $loop->iteration }}</td>
@@ -106,12 +105,10 @@
                                                 <div class="input-group">
                                                     <form method="POST" action="{{ url('/Factura/'.$item->id) }}" accept-charset="UTF-8" style="display:inline">
                                                         {{ method_field('DELETE') }}
+
                                                         {{ csrf_field() }}
                                                         <a> <button type="submit" class="btn btn-danger btm-smn mt-1 fa fa-trash-alt " title="Eliminar Cliente" onclick="return confirm('¿Desea Borrar el Dato?');"> </button> </a>
-
                                                     </form>
-
-
                                                 </div>
                                             </div>
                                         </td>
@@ -131,12 +128,12 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Total') }}</label>
 
                                 <div class="col-md-3">
-                                    <input type="text" class="form-control text-sm-center" name="total" value="{{$Suma}}">
+                                    <input type="text" class="form-control text-sm-center" name="total" value="{{$Suma}}" readonly>
                                 </div>
                             </div>
                             <div class=" form-inline mb-2 mb-lg-0 justify-content-center">
                                 <div class="input-group">
-                                    <input type="submit" class="btn btn-success  mr-sm-3 d-block mx-auto " value="{{'Editar' }}">
+                                    <input type="submit" class="btn btn-success  mr-sm-3 d-block mx-auto " value="{{'Finalizar' }}">
 
 
                                 </div>

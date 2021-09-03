@@ -34,7 +34,7 @@
 
                             <div class="row">
                                 <div class="col">
-                                    <label for="inputEmail4" class="">Cliente <a class="btn btn-success btn-sm   d-block mx-auto float-right"   data-toggle="modal" data-target="#Cliente">Agregar Cliente</a></label>
+                                    <label for="inputEmail4" class="">Cliente <a class="btn btn-success btn-sm   d-block mx-auto float-right"  href="{{url('Cliente/create')}}">Agregar Cliente</a></label>
                                     <select name="cliente_id" id="usuarios_id" class="form-control">
                                         <option class="form-inline justify-content-center" > Seleccione Cliente </option>
                                         @foreach($Usuario as $Usuario )
@@ -64,5 +64,10 @@
 
     </form>
 
+
+
+<script type="text/javascript">
+    $('#usuarios_id').select2();
+</script>
 
 @endsection

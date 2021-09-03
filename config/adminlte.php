@@ -246,17 +246,17 @@ return [
         [
             'text' => 'Categorias',
             'url'  => 'Categoria',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-fw fa-ad',
         ],
         [
             'text' => 'Productos',
             'url'  => 'Producto',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-fw fa-shopping-cart',
         ],
         [
             'text' => 'Factura',
             'url'  => 'Factura',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-fw fa-cash-register',
         ],
 
 

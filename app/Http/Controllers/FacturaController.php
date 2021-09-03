@@ -25,7 +25,10 @@ class FacturaController extends Controller
                 ->orWhere('id', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
         } else {
-            $Factura = factura::latest()->paginate($perPage);
+            $Factura = DB::table('facturas as f')
+                ->join('clientes as c', 'c.id', '=', 'f.cliente_id')
+                ->select('f.*', 'c.nombre', 'c.apellido')
+                ->latest()->paginate($perPage);
 
         }
 
@@ -88,9 +91,26 @@ class FacturaController extends Controller
         $cantidad = $request ->cantidad;
         $SUBTOTAL = $cantidad * $Productos;
         $Detalle->subtotal = $SUBTOTAL;
-       // dd($Detalle);
+
+
 
         $Detalle->save();
+
+
+        $ProId = DB::table('productos')->where('id', '=', $productos_id)->value('id');
+        $Pro = DB::table('productos')->where('id', '=', $productos_id)->value('stock');
+
+        $Produc = producto::findOrFail($ProId);
+        $Produc ->fill($request->all());
+        $Produc->stock = $Pro - $cantidad;
+        $d = $Pro - $cantidad;
+        if($d == '0'){
+            $Produc->estado ='No Disponible';
+        }else{
+
+        }
+
+        $Produc ->update();
 
 
         //return $this->detalle();
@@ -122,9 +142,12 @@ class FacturaController extends Controller
      * @param  \App\Factura  $Factura
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+
+
         detalle_venta::destroy($id);
+
 
         return back();
 
