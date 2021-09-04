@@ -65,7 +65,9 @@ class FacturaController extends Controller
     public function detalle($id)
     {
         $Factura = factura::findOrFail($id);
-        $Cliente = cliente::all();
+        $Cliente = DB::table('clientes as c')
+        ->join('facturas as f', 'f.cliente_id', '=', 'c.id')
+        ->select('c.*')->where('f.id', '=', $id)->get();
         $Producto = producto::all();
         $Detalle = DB::table('detalle_ventas')
             ->join('productos', 'productos.id', 'detalle_ventas.productos_id')->select('detalle_ventas.*', 'productos.nombre')

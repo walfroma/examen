@@ -42,6 +42,7 @@
                                     </div>
                                 @endforeach
                             </div>
+                        <br/>
                                 <div class="row">
                                     <div class="col">
                                         <label for="inputEmail4" class="">Producto </label>
